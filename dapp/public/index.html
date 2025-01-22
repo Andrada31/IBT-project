@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="stylesheet" href="%PUBLIC_URL%/styles.css" />
+  <title>IBT Wallet</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div class="container">
+    <h1>IBT Wallet</h1>
+    <div class="button-container">
+      <button id="connect-button" class="btn" onclick="connectMetaMask()">Connect MetaMask</button>
+      <button id="ibt-button" class="btn" onclick="checkIBTBalance()">Check IBT Balance</button>
+    </div>
+    <div id="wallet-info" class="wallet-info">
+      <p id="wallet-address"></p>
+      <p id="wallet-balance"></p>
+    </div>
