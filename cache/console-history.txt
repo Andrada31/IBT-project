@@ -1,0 +1,9 @@
+await ibt.mint(deployer.address, ethers.utils.parseUnits("77",18));
+await ibt.burn(deployer.address, ethers.utils.parseUnits("1000",18));
+await ibt.mint(deployer.address, ethers.utils.parseUnits("1000",18));
+console.log(deployer);
+const deployer = await ethers.getSigner();
+const ibt = await IBT.attach(contractAddress);
+const IBT = await ethers.getContractFactory("IBT");
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
