@@ -63,6 +63,7 @@ const ibtAbi = [
 ];
 const ibtAddress = "YOUR_IBT_CONTRACT_ADDRESS_HERE"; // Replace with your IBT token contract address
 
+
 // Expose functions to the global scope
 window.connectMetaMask = connectMetaMask;
 window.interactWithIBT = interactWithIBT;
