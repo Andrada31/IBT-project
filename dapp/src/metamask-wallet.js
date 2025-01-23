@@ -1,55 +1,57 @@
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 
 let provider;
 let signer;
+const ethers = require("ethers");
 
 // Step 1: Connect MetaMask
-async function connectMetaMask() {
+export async function connectMetaMask() {
   if (typeof window.ethereum !== "undefined") {
     try {
       // Request account access
       await window.ethereum.request({ method: "eth_requestAccounts" });
 
       // Set up provider and signer
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      signer = provider.getSigner();
+      provider = new ethers.BrowserProvider(window.ethereum); // Use BrowserProvider in v6
+      signer = await provider.getSigner();
 
-      const address = await signer.getAddress();
+      // Get connected account address (ensure it's a string)
+      const accounts = await provider.listAccounts();
+      const address = accounts[0].address || "Not connected";
       console.log("Connected Wallet Address:", address);
 
-      // Display wallet address
-      document.getElementById("wallet-address").innerText = `Address: ${address}`;
-
-      // Display balance
+      // Fetch wallet balance (formatted to string)
       const balance = await provider.getBalance(address);
-      console.log("Wallet Balance (ETH):", ethers.utils.formatEther(balance));
-      document.getElementById("wallet-balance").innerText = `Balance: ${ethers.utils.formatEther(balance)} ETH`;
-
-      return { address, balance: ethers.utils.formatEther(balance) };
+      const formattedBalance = ethers.formatEther(balance);
+      console.log("Connected Wallet Address:", address);
+      console.log("Connected Wallet Balance:", formattedBalance, "ETH");
+      return { address, balance: formattedBalance };
     } catch (error) {
       console.error("MetaMask Connection Error:", error);
+      return null;
     }
   } else {
     alert("MetaMask is not installed! Please install it to use this feature.");
+    return null;
   }
 }
 
 // Step 2: Interact with IBT Token Contract
-async function interactWithIBT(contractAddress, abi) {
+export async function checkIBTBalance() {
   if (!signer) {
     alert("Please connect your wallet first!");
     return;
   }
 
   // Set up IBT Contract
-  const ibtContract = new ethers.Contract(contractAddress, abi, signer);
+  const ibtContract = new ethers.Contract(ibtAddress, ibtAbi, signer);
 
   // Example: Check IBT Balance
   try {
     const address = await signer.getAddress();
     const balance = await ibtContract.balanceOf(address);
-    console.log("IBT Token Balance:", ethers.utils.formatUnits(balance, 18)); // Assuming 18 decimals
-    alert(`IBT Token Balance: ${ethers.utils.formatUnits(balance, 18)}`);
+    console.log("IBT Token Balance:", ethers.formatUnits(balance, 18)); // Assuming 18 decimals
+    alert(`IBT Token Balance: ${ethers.formatUnits(balance, 18)}`);
   } catch (error) {
     console.error("Error interacting with IBT contract:", error);
   }
@@ -61,9 +63,4 @@ const ibtAbi = [
   "function mint(address to, uint256 amount)",
   "function transfer(address to, uint256 amount)",
 ];
-const ibtAddress = "YOUR_IBT_CONTRACT_ADDRESS_HERE"; // Replace with your IBT token contract address
-
-
-// Expose functions to the global scope
-window.connectMetaMask = connectMetaMask;
-window.interactWithIBT = interactWithIBT;
+const ibtAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Replace with your IBT token contract address

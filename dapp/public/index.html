@@ -16,18 +16,7 @@
 
 <body>
   <div id="root"></div>
-  <div class="container">
-    <h1>IBT Wallet</h1>
-    <div class="button-container">
-      <button id="connect-button" class="btn" onclick="connectMetaMask()">Connect MetaMask</button>
-      <button id="ibt-button" class="btn" onclick="checkIBTBalance()">Check IBT Balance</button>
-    </div>
-    <div id="wallet-info" class="wallet-info">
-      <p id="wallet-address"></p>
-      <p id="wallet-balance"></p>
-    </div>
-  </div>
-  <script type="module" src="metamask-wallet.js"></script>
+  <script type="module" src="%PUBLIC_URL%/metamask-wallet.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,24 @@
+await ibt.transfer("0x5fFCe2Aa47EB34F066D9259C15b2c0DF11a00c33",ethers.utils.parseUnits("7",18));
+await ibt.transfer("0x5fFCe2Aa47EB34F066D9259C15b2c0DF11a00c33",ethers.utils.parseUnits("77",18));
+console.log("IBT deployed to: ", ibt.address);
+const ibt = await IBT.attach(contractAddress);
+const contractAddress="0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const IBT = await ethers.getContractFactory("IBT");
+await ibt.transfer("0x5fFCe2Aa47EB34F066D9259C15b2c0DF11a00c33",ethers.utils.parseUnits("77",18));
+const ibt = await IBT.attach(contractAddress);
+contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const ibt = await IBT.attach(contractAddress);
+const IBT = await ethers.getContractFactory("IBT");
+await ibt.transfer("0x5fFCe2Aa47EB34F066D9259C15b2c0DF11a00c33",ethers.utils.parseUnits("77",18));
+await ibt.mint(deployer.address, ethers.utils.parseUnits("100",18));
+await ibt.mint(deployer.address, ethers.utils.parseUnits("100",18);
+console.log(deployer)
+const deployer = await ethers.getSigner();
+const ibt = await IBT.attach(contractAddress);
+const IBT = await ethers.getContractFactory("IBT");
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const ibt = await IBT.attach(contractAddress);
+await IBT.attach(contractAddress);
 await ibt.mint(deployer.address, ethers.utils.parseUnits("77",18));
 await ibt.burn(deployer.address, ethers.utils.parseUnits("1000",18));
 await ibt.mint(deployer.address, ethers.utils.parseUnits("1000",18));

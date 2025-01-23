@@ -12,12 +12,51 @@ body {
   height: 100vh;
 }
 
-.container {
+.App-header {
+  width: 100%;
+  background-color: #282c34;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-button {
+  background-color: #61dafb;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #282c34;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button.active {
+  background-color: #21a1f1;
+}
+
+.nav-button:hover {
+  background-color: #21a1f1;
+}
+
+.wallet-container {
   text-align: center;
   background-color: #fff;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 5rem;
+  /* Adjust for fixed navbar */
 }
 
 h1 {
