@@ -3,11 +3,12 @@ let signer;
 const ethers = require("ethers");
 
 export async function connectMetaMask() {
+
   if (typeof window.ethereum !== "undefined") {
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
 
-      provider = new ethers.BrowserProvider(window.ethereum); 
+      provider = new ethers.BrowserProvider(window.ethereum);
       signer = await provider.getSigner();
 
       const accounts = await provider.listAccounts();
@@ -29,7 +30,7 @@ export async function connectMetaMask() {
   }
 }
 
-export async function checkIBTBalance() {
+export async function checkEthBalance() {
   if (!signer) {
     alert("Please connect your wallet first!");
     return;
@@ -37,11 +38,10 @@ export async function checkIBTBalance() {
 
   const ibtContract = new ethers.Contract(ibtAddress, ibtAbi, signer);
 
-
   try {
     const address = await signer.getAddress();
     const balance = await ibtContract.balanceOf(address);
-    console.log("IBT Token Balance:", ethers.formatUnits(balance, 18)); 
+    console.log("IBT Token Balance:", ethers.formatUnits(balance, 18));
     alert(`IBT Token Balance: ${ethers.formatUnits(balance, 18)}`);
   } catch (error) {
     console.error("Error interacting with IBT contract:", error);
