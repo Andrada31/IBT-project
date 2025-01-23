@@ -2,6 +2,32 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { connectMetaMask, checkIBTBalance } from './metamask-wallet';
 
+import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
+import { getFullnodeUrl } from '@mysten/sui/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '@mysten/dapp-kit/dist/index.css';
+import { useSuiClientQuery } from '@mysten/dapp-kit';
+
+// const { networkConfig } = createNetworkConfig({
+// 	localnet: { url: getFullnodeUrl('localnet') },
+// 	mainnet: { url: getFullnodeUrl('mainnet') },
+// });
+// const queryClient = new QueryClient();
+
+// function MyComponent() {
+// 	const { data, isPending, error, refetch } = useSuiClientQuery('getOwnedObjects', {
+// 		owner: '0x123',
+// 	});
+
+// 	if (isPending) {
+// 		return <div>Loading...</div>;
+// 	}
+
+// 	return <pre>{JSON.stringify(data, null, 2)}</pre>;
+// }
+
+
+
 function App() {
   const [walletType, setWalletType] = useState('Ethereum');
   const [walletInfo, setWalletInfo] = useState({ address: '', balance: '' });
@@ -59,6 +85,15 @@ function App() {
           <button className={`nav-button ${walletType === 'SUI' ? 'active' : ''}`} onClick={() => handleWalletSwitch('SUI')}>SUI Wallet</button>
         </nav>
       </header>
+      {/* <QueryClientProvider client={queryClient}>
+        <SuiClientProvider networks={networkConfig} defaultNetwork="localnet">
+          <WalletProvider>
+            <YourApp />
+          </WalletProvider>
+        </SuiClientProvider>
+		  </QueryClientProvider> */}
+
+      {/* <MyComponent></MyComponent> */}
       <main className="wallet-container">
         <h1>{walletType} Wallet</h1>
         <div className="button-container">
