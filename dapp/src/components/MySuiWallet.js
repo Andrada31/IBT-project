@@ -37,6 +37,7 @@ function MySuiWallet() {
       {connectionStatus === 'connected' ? (
         <div className='wallet-info'>
           <div>
+			<h4>Current Account</h4>
             Address:
               {currentWallet.accounts.map((account) => (
                 <p key={account.address}>- {account.address}</p>

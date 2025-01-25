@@ -44,6 +44,24 @@ const MyMetamask = ({ setWalletInfo }) => {
     }
   };
 
+  const checkEthBalance = async () => {
+    if (!signer) {
+      alert("Please connect your wallet first!");
+      return;
+    }
+
+    const ibtContract = new ethers.Contract(ibtAddress, ibtAbi, signer);
+
+    try {
+      const address = await signer.getAddress();
+      const balance = await ibtContract.balanceOf(address);
+      console.log("IBT Token Balance:", ethers.formatUnits(balance, 18));
+      alert(`IBT Token Balance: ${ethers.formatUnits(balance, 18)}`);
+    } catch (error) {
+      console.error("Error interacting with IBT contract:", error);
+    }
+  };
+
   const ibtAbi = [
     "function balanceOf(address owner) view returns (uint256)",
     "function mint(address to, uint256 amount)",
@@ -54,15 +72,20 @@ const MyMetamask = ({ setWalletInfo }) => {
   return (
     <div>
       <div className="button-container">
-        <button className="btn" onClick={connectMetaMask}>
-          Connect MetaMask
-        </button>
+        {address ? (
+          <h4>Current account</h4>
+        ) : (
+          <button className="btn" onClick={connectMetaMask}>
+            Connect MetaMask
+          </button>
+        )}
       </div>
-      <div>
-        <p>Address: {address}</p>
-        <p>Balance: {balance}</p>
-      </div>
-
+      {address && (
+        <div>
+          <p>Address: {address}</p>
+          <p>Balance: {balance}</p>
+        </div>
+      )}
     </div>
   );
 };

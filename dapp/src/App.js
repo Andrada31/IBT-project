@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/App.css';
 import MyMetamask from './components/MyMetamask';
 import MySuiWallet from './components/MySuiWallet';
-import SuiTransaction from './hooks/suiTransaction';
+import TransactionContainer from './components/TransactionContainer';
 import '@mysten/dapp-kit/dist/index.css';
 
 function App() {
@@ -41,9 +41,9 @@ function App() {
         <div className="wallet-container">
           <h2>SUI Wallet</h2>
           <MySuiWallet />
-          {/* <SuiTransaction /> */}
         </div>
       </main>   
+      <TransactionContainer/>
     </div>
   );
 }
