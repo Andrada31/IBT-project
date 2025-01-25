@@ -1,0 +1,66 @@
+.App {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-header {
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wallets-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wallet-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 30px;
+  width: 400px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.wallet-info {
+  margin-top: 20px;
+}
+
+.btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+  color: #333;
+}
+
+p {
+  font-size: 14px;
+  color: #666;
+}
