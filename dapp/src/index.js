@@ -7,6 +7,7 @@ import { SuiClientProvider, WalletProvider, createNetworkConfig } from '@mysten/
 import { getFullnodeUrl } from '@mysten/sui.js/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
 const { networkConfig } = createNetworkConfig({

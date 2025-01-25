@@ -1,28 +1,13 @@
 import React from 'react';
 import { connectMetaMask } from '../components/metamask-wallet';
-import { useSuiWallet } from '../components/sui-wallet';
 
-const WalletHook = ({ walletType, setWalletInfo }) => {
-  const { connectSuiWallet } = useSuiWallet();
-
+const MetaHook = ({ walletType, setWalletInfo }) => {
   const connectWallet = async () => {
-    if (walletType === 'Ethereum') {
-      const info = await connectMetaMask();
-      setWalletInfo({
-        address: info.address || 'Not connected',
-        balance: `${info.balance || '0.00'} ETH`,
-      });
-    } else {
-      try {
-        const info = await connectSuiWallet();
-        setWalletInfo({
-          address: info.address || 'Not connected',
-          balance: `${info.balance || '0.00'} SUI`,
-        });
-      } catch (error) {
-        console.error('Failed to connect to SUI Wallet:', error);
-      }
-    }
+    const info = await connectMetaMask();
+    setWalletInfo({
+      address: info.address || 'Not connected',
+      balance: `${info.balance || '0.00'} ETH`,
+    });
   };
 
   return (
@@ -34,4 +19,4 @@ const WalletHook = ({ walletType, setWalletInfo }) => {
   );
 };
 
-export default WalletHook;
+export default MetaHook;
