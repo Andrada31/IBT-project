@@ -1,8 +1,6 @@
-// src/MySuiWallet.js
-
 import { ConnectButton, useCurrentWallet, useSuiClient } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
-import { mintIBTTokens } from '../scripts/mintSUI.js';  // Import the function
+import { mintIBTTokens } from '../scripts/mintSUI.js'; 
 
 const MIST_PER_SUI = 1_000_000_000;
 

@@ -10,7 +10,6 @@ function App() {
   const [ethWalletInfo, setEthWalletInfo] = useState({ address: '', balance: '' });
 
   useEffect(() => {
-    // Load wallet info from local storage
     const storedEthWalletInfo = JSON.parse(localStorage.getItem('ethWalletInfo'));
 
     if (storedEthWalletInfo) {
@@ -19,13 +18,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Save wallet info to local storage
     localStorage.setItem('ethWalletInfo', JSON.stringify(ethWalletInfo));
   }, [ethWalletInfo]);
 
   const handleWalletSwitch = (type) => {
     setWalletType(type);
-    setEthWalletInfo({ address: '', balance: '' }); // Reset wallet info when switching
+    setEthWalletInfo({ address: '', balance: '' }); 
   };
 
   return (

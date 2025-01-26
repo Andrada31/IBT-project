@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import IBT from "../IBT.json";
-import MintTokensButton from "./MintTokensButton";
-import BurnTokensButton from "./BurnTokensButton";
 
 const IBT_ABI = IBT.abi;
 const ethers = require("ethers");
@@ -125,16 +123,6 @@ const MyMetamask = ({ setWalletInfo }) => {
           <p>Address: {selectedAccount}</p>
           <p>ETH Balance: {balance}</p>
           <p>IBT Balance: {ibtBalance}</p>
-          <MintTokensButton
-            contractAddress={contractAddress}
-            recipient={selectedAccount}
-            amount={10} // Example amount
-            provider={new ethers.BrowserProvider(window.ethereum)}
-            setIbtBalance={setIbtBalance}
-          />
-          <BurnTokensButton
-          provider={new ethers.BrowserProvider(window.ethereum)}
-        />
         </div>
       )}
     </div>
