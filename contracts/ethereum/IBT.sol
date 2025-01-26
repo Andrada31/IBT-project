@@ -27,3 +27,5 @@ contract IBT is ERC20, Ownable {
         _burn(from, amount);
     }
 }
+
+//Deployed IBT to 0x5FbDB2315678afecb367f032d93F642f64180aa3

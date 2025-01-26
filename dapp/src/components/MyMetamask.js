@@ -1,89 +1,140 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import IBT from "../IBT.json";
+import MintTokensButton from "./MintTokensButton";
+import BurnTokensButton from "./BurnTokensButton";
+
+const IBT_ABI = IBT.abi;
 const ethers = require("ethers");
-
 const MyMetamask = ({ setWalletInfo }) => {
-  const [address, setAddress] = useState('');
-  const [balance, setBalance] = useState('');
-  let provider;
-  let signer;
+  const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState("");
+  const [balance, setBalance] = useState("");
+  const [ibtBalance, setIbtBalance] = useState(""); 
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; 
 
-  const connectMetaMask = async () => {
+  const fetchAccounts = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
 
-        provider = new ethers.BrowserProvider(window.ethereum);
-        signer = await provider.getSigner();
-
-        const accounts = await provider.listAccounts();
-        const address = accounts[0].address || "Not connected";
-        console.log("Connected Wallet Address:", address);
-
-        const balance = await provider.getBalance(address);
-        const formattedBalance = ethers.formatEther(balance);
-        console.log("Connected Wallet Address:", address);
-        console.log("Connected Wallet Balance:", formattedBalance, "ETH");
-
-        setWalletInfo({
-          address: address,
-          balance: `${formattedBalance} ETH`,
+        const fetchedAccounts = await window.ethereum.request({
+          method: "eth_accounts",
         });
-        setAddress(address);
-        setBalance(`${formattedBalance} ETH`);
+        console.log("Available Accounts:", fetchedAccounts);
+
+        setAccounts(fetchedAccounts);
+        if (fetchedAccounts.length > 0) {
+          connectAccount(fetchedAccounts[0]);
+        }
       } catch (error) {
-        console.error("MetaMask Connection Error:", error);
-        setWalletInfo({
-          address: 'Connection failed',
-          balance: '0.00 ETH',
-        });
-        setAddress('Connection failed');
-        setBalance('0.00 ETH');
+        console.error("Error fetching accounts:", error);
+        alert("Failed to fetch accounts. Please try again.");
       }
     } else {
       alert("MetaMask is not installed! Please install it to use this feature.");
     }
   };
 
-  const checkEthBalance = async () => {
-    if (!signer) {
-      alert("Please connect your wallet first!");
-      return;
-    }
-
-    const ibtContract = new ethers.Contract(ibtAddress, ibtAbi, signer);
-
+  const connectAccount = async (account) => {
     try {
-      const address = await signer.getAddress();
-      const balance = await ibtContract.balanceOf(address);
-      console.log("IBT Token Balance:", ethers.formatUnits(balance, 18));
-      alert(`IBT Token Balance: ${ethers.formatUnits(balance, 18)}`);
+      setSelectedAccount(account);
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const balance = await provider.getBalance(account);
+      const formattedBalance = ethers.formatEther(balance);
+      const ibtBalance = await fetchIBTBalance(provider, account);
+
+      setWalletInfo({
+        address: account,
+        balance: `${formattedBalance} ETH`,
+        ibtBalance: `${ibtBalance} IBT`,
+      });
+
+      setBalance(`${formattedBalance} ETH`);
+      setIbtBalance(`${ibtBalance} IBT`);
+      console.log("Connected Account:", account);
+      console.log("Account Balance:", formattedBalance, "ETH");
+      console.log("IBT Token Balance:", ibtBalance, "IBT");
     } catch (error) {
-      console.error("Error interacting with IBT contract:", error);
+      console.error("Error connecting to account:", error);
+      setWalletInfo({
+        address: "Connection failed",
+        balance: "0.00 ETH",
+        ibtBalance: "0.00 IBT",
+      });
+      setSelectedAccount("Connection failed");
+      setBalance("0.00 ETH");
+      setIbtBalance("0.00 IBT");
     }
   };
 
-  const ibtAbi = [
-    "function balanceOf(address owner) view returns (uint256)",
-    "function mint(address to, uint256 amount)",
-    "function transfer(address to, uint256 amount)",
-  ];
-  const ibtAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const fetchIBTBalance = async (provider, account) => {
+    try {
+      const contract = new ethers.Contract(contractAddress, IBT_ABI, provider);
+      const balance = await contract.balanceOf(account);
+      return ethers.formatUnits(balance, 18);
+    } catch (error) {
+      console.error("Error fetching IBT balance:", error);
+      return "0.00";
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      window.ethereum.on("accountsChanged", (newAccounts) => {
+        console.log("Accounts Changed:", newAccounts);
+        setAccounts(newAccounts);
+        if (newAccounts.length > 0) {
+          connectAccount(newAccounts[0]);
+        } else {
+          setSelectedAccount("");
+          setBalance("0.00 ETH");
+          setIbtBalance("0.00 IBT");
+        }
+      });
+    }
+  }, []);
 
   return (
     <div>
       <div className="button-container">
-        {address ? (
-          <h4>Current account</h4>
-        ) : (
-          <button className="btn" onClick={connectMetaMask}>
+        {accounts.length === 0 ? (
+          <button className="btn" onClick={fetchAccounts}>
             Connect MetaMask
           </button>
+        ) : (
+          <div>
+            <label htmlFor="account-select">Select Account: </label>
+            <select
+              id="account-select"
+              value={selectedAccount}
+              onChange={(e) => connectAccount(e.target.value)}
+            >
+              {accounts.map((account, index) => (
+                <option key={index} value={account}>
+                  {account}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
       </div>
-      {address && (
+      {selectedAccount && (
         <div>
-          <p>Address: {address}</p>
-          <p>Balance: {balance}</p>
+          <h4>Current account</h4>
+          <p>Address: {selectedAccount}</p>
+          <p>ETH Balance: {balance}</p>
+          <p>IBT Balance: {ibtBalance}</p>
+          <MintTokensButton
+            contractAddress={contractAddress}
+            recipient={selectedAccount}
+            amount={10} // Example amount
+            provider={new ethers.BrowserProvider(window.ethereum)}
+            setIbtBalance={setIbtBalance}
+          />
+          <BurnTokensButton
+          provider={new ethers.BrowserProvider(window.ethereum)}
+        />
         </div>
       )}
     </div>

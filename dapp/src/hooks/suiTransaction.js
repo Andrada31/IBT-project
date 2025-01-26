@@ -15,9 +15,7 @@ function SuiTransaction() {
         transactionBlock: bytes,
         signature,
         options: {
-          // Raw effects are required so the effects can be reported back to the wallet
           showRawEffects: true,
-          // Select additional data to return
           showObjectChanges: true,
         },
       }),

@@ -17,6 +17,8 @@ const { networkConfig } = createNetworkConfig({
 });
 
 
+
+
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
